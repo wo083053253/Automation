@@ -11,6 +11,5 @@
   become: yes
   become_method: sudo
   roles:
-  sudo: yes
     - scripts
     - rpm
