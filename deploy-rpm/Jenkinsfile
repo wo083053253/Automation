@@ -1,0 +1,60 @@
+pipeline {
+
+    environment {
+      SCRIPT_FOLDER = "staging"
+    }	
+    agent any
+    stages {
+        stage('Build Docker Image') {
+        steps {
+                sh "docker build -t myapache:v1 -f ${WORKSPACE}/${SCRIPT_FOLDER}/apache/Dockerfile ${WORKSPACE}/${SCRIPT_FOLDER}/apache/"
+            }
+        }
+		stage('Delete old Container if exist') {
+		steps {
+		        sh "chmod +x ${WORKSPACE}/${SCRIPT_FOLDER}/deldocker.sh"
+                sh "${WORKSPACE}/${SCRIPT_FOLDER}/deldocker.sh"
+		    }
+		}		
+		stage('Create ApacheServer Container') {
+	    steps {
+                sh "docker run -d -p 80 --name apacheServer myapache:v1"
+                sleep 3
+		        sh "docker ps"
+            }		
+	    }
+		stage('Verify Container') {
+	    steps {
+                sh "chmod +x ${WORKSPACE}/${SCRIPT_FOLDER}/getURL.sh"
+                sh "${WORKSPACE}/${SCRIPT_FOLDER}/getURL.sh"
+            }
+	    }
+    }
+	post {
+
+        aborted {
+        
+          echo "Sending message to Slack"
+          slackSend (color: "${env.SLACK_COLOR_WARNING}",
+                     channel: "${params.SLACK_CHANNEL_2}",
+                     message: "*ABORTED:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${env.USER_ID}\n More info at: ${env.BUILD_URL}")
+        } // aborted
+        
+        failure {
+        
+          echo "Sending message to Slack"
+          slackSend (color: "${env.SLACK_COLOR_DANGER}",
+                     channel: "${params.SLACK_CHANNEL_2}",
+                     message: "*FAILED:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${env.USER_ID}\n More info at: ${env.BUILD_URL}")
+        } // failure
+        
+        success {
+          echo "Sending message to Slack"
+          slackSend (color: "${env.SLACK_COLOR_GOOD}",
+                     channel: "${params.SLACK_CHANNEL_1}",
+                     message: "*SUCCESS:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} by ${env.USER_ID}\n More info at: ${env.BUILD_URL}")
+        } // success
+
+  } // post
+}
+

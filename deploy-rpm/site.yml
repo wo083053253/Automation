@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  sudo: yes
+  tasks:
+    - name: Check if script file exist
+      stat: path=generate_rpms.sh
+      register: scriptfile_existed
+
+- hosts: bo2-inf-rpo
+  remote_user: root
+  become: yes
+  become_method: sudo
+
+  roles:
+    sudo: yes
+    - scripts
+    - rpm
