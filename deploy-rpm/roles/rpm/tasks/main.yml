@@ -7,11 +7,11 @@
   shell: sh {{ scriptsdir }}/{{ scriptName }} {{ inventory_hostname }} {{ rpmdir }}
   when: genscript_existed.stat.exists == true
   
-- name: Check if rpm package genrated
-  stat: path={{ scriptsdir }}/{{ inventory_hostname }}_*.rpm
-  register: rpm_existed
-  failed_when: rpm_existed.stat.exists == false
-  
 - name: List rpm package
   shell: ls {{ scriptsdir }}/{{ inventory_hostname }}_*.rpm
-  when: rpm_existed.stat.exists == true
+  register: rpm_list
+  
+- name: Check if rpm package genrated
+  debug: msg="{{ rpm_list.stdout }}"
+  failed_when: rpm_list == ''
+  
