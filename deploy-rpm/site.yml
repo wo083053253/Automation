@@ -3,7 +3,7 @@
   sudo: yes
   tasks:
     - name: Check if script file exist
-      stat: path=generate_rpms.sh
+      stat: path={{ scriptLocalPath }}/{{ scriptName }}
       register: scriptfile_existed
       failed_when: scriptfile_existed.stat.exists == false
 

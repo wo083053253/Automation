@@ -1,14 +1,14 @@
 ---
 - name: Check if temp folder exist on target hosts
-  stat: path=/tmp/genrpm
+  stat: path={{ rpmdir }}
   register: tempdir_existed
 
 - name: Remove temp folder if exist
-  file: path=/tmp/genrpm state=absent
+  file: path={{ rpmdir }} state=absent
   when: tempdir_existed.stat.exists == true
 
 - name: Create temp foler for deploy nodes
-  file: path=/tmp/genrpm state=directory  
+  file: path={{ rpmdir }} state=directory  
   
 - name: Copy gen_rpm scripts to tmp folder on deploy nodes
-  copy: src=generate_rpms.sh dest=/tmp/genrpm
+  copy: src={{ scriptName }} dest={{ rpmdir }}

@@ -1,17 +1,16 @@
 ---
-- set_fact: scriptsdir="/tmp/genrpm"
-      
 - name: Check if script file exist
-  stat: path={{ scriptsdir }}/generate_rpms.sh
+  stat: path={{ scriptsdir }}/{{ scriptName }}
   register: genscript_existed
   
 - name: Generate rpm package by script
-  shell: sh {{ scriptsdir }}/generate_rpms.sh {{ inventory_hostname }}
+  shell: sh {{ scriptsdir }}/{{ scriptName }} {{ inventory_hostname }} {{ rpmdir }}
   when: genscript_existed.stat.exists == true
   
 - name: Check if rpm package genrated
   stat: path={{ scriptsdir }}/{{ inventory_hostname }}_*.rpm
   register: rpm_existed
+  failed_when: rpm_existed.stat.exists == false
   
 - name: List rpm package
   shell: ls {{ scriptsdir }}/{{ inventory_hostname }}_*.rpm

@@ -1,0 +1,5 @@
+---
+scriptsdir: '/tmp/genrpm'
+rpmdir: '/tmp/genrpm'
+scriptLocalPath: './roles/scripts/files'
+scriptName: 'generate_rpms.sh'
