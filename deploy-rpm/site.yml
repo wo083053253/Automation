@@ -5,6 +5,7 @@
     - name: Check if script file exist
       stat: path=generate_rpms.sh
       register: scriptfile_existed
+      failed_when: scriptfile_existed.stat.exists == false
 
 - hosts: bo2-inf-rpo
   remote_user: root

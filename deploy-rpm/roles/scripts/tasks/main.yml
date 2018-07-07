@@ -12,4 +12,3 @@
   
 - name: Copy gen_rpm scripts to tmp folder on deploy nodes
   copy: src=generate_rpms.sh dest=/tmp/genrpm
-  when: scriptfile_existed.stat.exists == true
