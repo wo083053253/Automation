@@ -1,2 +1,8 @@
 [bo2-inf-rpo]
 bo2-inf-rpo-001
+
+[bo2-inf-rpo:vars]
+ansible_user=i353613@ycsdev.io
+ansible_become=true
+ansible_become_method=sudo
+ansible_become_user=root
