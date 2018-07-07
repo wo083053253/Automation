@@ -4,9 +4,9 @@ pipeline {
     }	
     agent any
     stages {
-        stage('Build Docker Image') {
+        stage('Deploy RPM Package') {
         steps {
-                sh "ansible-playbook -i ${WORKSPACE}/${SCRIPT_FOLDER}/hosts ${WORKSPACE}/${SCRIPT_FOLDER}/site.yml"
+                sh "sudo ansible-playbook -i ${WORKSPACE}/${SCRIPT_FOLDER}/hosts ${WORKSPACE}/${SCRIPT_FOLDER}/site.yml"
             }
         }
 		stage('Clear WORKSPACE') {
