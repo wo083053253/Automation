@@ -6,8 +6,7 @@ pipeline {
     stages {
         stage('Deploy RPM Package') {
         steps {
-                sh "sudo chmod 777 ${WORKSPACE}/${SCRIPT_FOLDER}/roles/scripts/files/*.sh"
-				sh "sudo ansible-playbook -i ${WORKSPACE}/${SCRIPT_FOLDER}/hosts ${WORKSPACE}/${SCRIPT_FOLDER}/site.yml"
+                sh "ls -l"
             }
         }
 		stage('Clear WORKSPACE') {
