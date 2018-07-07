@@ -1,32 +1,17 @@
 pipeline {
-
     environment {
-      SCRIPT_FOLDER = "staging"
+      SCRIPT_FOLDER = "deploy-rpm"
     }	
     agent any
     stages {
         stage('Build Docker Image') {
         steps {
-                sh "docker build -t myapache:v1 -f ${WORKSPACE}/${SCRIPT_FOLDER}/apache/Dockerfile ${WORKSPACE}/${SCRIPT_FOLDER}/apache/"
+                ansible-playbook -i ${WORKSPACE}/${SCRIPT_FOLDER}/hosts ${WORKSPACE}/${SCRIPT_FOLDER}/site.yml
             }
         }
-		stage('Delete old Container if exist') {
-		steps {
-		        sh "chmod +x ${WORKSPACE}/${SCRIPT_FOLDER}/deldocker.sh"
-                sh "${WORKSPACE}/${SCRIPT_FOLDER}/deldocker.sh"
-		    }
-		}		
-		stage('Create ApacheServer Container') {
+		stage('Clear WORKSPACE') {
 	    steps {
-                sh "docker run -d -p 80 --name apacheServer myapache:v1"
-                sleep 3
-		        sh "docker ps"
-            }		
-	    }
-		stage('Verify Container') {
-	    steps {
-                sh "chmod +x ${WORKSPACE}/${SCRIPT_FOLDER}/getURL.sh"
-                sh "${WORKSPACE}/${SCRIPT_FOLDER}/getURL.sh"
+                sh "rm -r ${WORKSPACE}"
             }
 	    }
     }
