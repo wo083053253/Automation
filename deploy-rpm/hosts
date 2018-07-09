@@ -1,7 +1,19 @@
 [bo2-inf-rpo]
 bo2-inf-rpo-001
+bo2-inf-rpo-002
 
 [bo2-inf-rpo:vars]
+ansible_user=i353613@ycsdev.io
+ansible_become=true
+ansible_become_method=sudo
+ansible_become_user=root
+ansible_sudo_pass=Qwerty829!
+
+[bo2-inf-ndb]
+bo2-inf-ndb-001
+bo2-inf-ndb-002
+
+[bo2-inf-ndb:vars]
 ansible_user=i353613@ycsdev.io
 ansible_become=true
 ansible_become_method=sudo

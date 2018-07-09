@@ -7,7 +7,7 @@
       register: scriptfile_existed
       failed_when: scriptfile_existed.stat.exists == false
 
-- hosts: bo2-inf-rpo
+- hosts: bo2-inf-rpo:bo2-inf-ndb
   remote_user: root
   become: yes
   become_method: sudo
