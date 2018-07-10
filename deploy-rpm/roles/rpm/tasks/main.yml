@@ -11,11 +11,11 @@
   
 - name: Generate rpo rpm package by script
   shell: sh {{ scriptsdir }}/{{ scriptName1 }} {{ inventory_hostname }} {{ rpmdir }}
-  when: rpo_genscript_existed01.stat.exists == true and  inventory_hostname is match("bo2-inf-rpo*")
+  when: rpo_genscript_existed01.stat.exists == true and inventory_hostname is match("bo2-inf-rpo*")
   
 - name: Generate ndb rpm package by script
   shell: sh {{ scriptsdir }}/{{ scriptName2 }} {{ inventory_hostname }} {{ rpmdir }}
-  when: ndb_genscript_existed02.stat.exists == true and  inventory_hostname is match("bo2-inf-ndb*")
+  when: ndb_genscript_existed02.stat.exists == true and inventory_hostname is match("bo2-inf-ndb*")
   
 - name: List rpm package
   shell: ls {{ scriptsdir }}/{{ inventory_hostname }}_*.rpm
