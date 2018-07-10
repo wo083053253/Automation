@@ -2,4 +2,5 @@
 scriptsdir: '/tmp/genrpm'
 rpmdir: '/tmp/genrpm'
 scriptLocalPath: './roles/scripts/files'
-scriptName: 'generate_rpms.sh'
+scriptName1: 'rpo_generate_rpms.sh'
+scriptName2: 'ndb_generate_rpms.sh'

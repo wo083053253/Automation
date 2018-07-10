@@ -10,5 +10,10 @@
 - name: Create temp foler for deploy nodes
   file: path={{ rpmdir }} state=directory  
   
-- name: Copy gen_rpm scripts to tmp folder on deploy nodes
-  copy: src={{ scriptName }} dest={{ rpmdir }}
+- name: Copy rpo generate rpm scripts to tmp folder on deploy nodes
+  copy: src={{ scriptName1 }} dest={{ rpmdir }}
+  when: {{ inventory_hostname }} | match("bo2-inf-rpo*")
+  
+- name: Copy ndb generate rpm scripts to tmp folder on deploy nodes
+  copy: src={{ scriptName2 }} dest={{ rpmdir }}
+  when: {{ inventory_hostname }} | match("bo2-inf-ndb*")

@@ -2,10 +2,15 @@
 - hosts: localhost
   sudo: yes
   tasks:
-    - name: Check if script file exist
-      stat: path={{ scriptLocalPath }}/{{ scriptName }}
-      register: scriptfile_existed
-      failed_when: scriptfile_existed.stat.exists == false
+    - name: Check if rpo generate script file exist
+      stat: path={{ scriptLocalPath }}/{{ scriptName1 }}
+      register: scriptfile_existed01
+      failed_when: scriptfile_existed01.stat.exists == false
+  tasks:
+    - name: Check if ndb generate script file exist
+      stat: path={{ scriptLocalPath }}/{{ scriptName2 }}
+      register: scriptfile_existed02
+      failed_when: scriptfile_existed02.stat.exists == false  
 
 - hosts: bo2-inf-rpo:bo2-inf-ndb
   remote_user: root
