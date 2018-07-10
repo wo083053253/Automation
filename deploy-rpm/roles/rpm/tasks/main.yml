@@ -2,20 +2,20 @@
 - name: Check if rpo generate script file exist on nodes
   stat: path={{ scriptsdir }}/{{ scriptName1 }}
   register: genscript_existed01
-  when: {{ inventory_hostname }} is match("bo2-inf-rpo*")
+  when:  inventory_hostname is match("bo2-inf-rpo*")
 
 - name: Check if ndb generate script file exist on nodes
   stat: path={{ scriptsdir }}/{{ scriptName2 }}
   register: genscript_existed02
-  when: {{ inventory_hostname }} is match("bo2-inf-ndb*")
+  when:  inventory_hostname is match("bo2-inf-ndb*")
   
 - name: Generate rpo rpm package by script
   shell: sh {{ scriptsdir }}/{{ scriptName1 }} {{ inventory_hostname }} {{ rpmdir }}
-  when: genscript_existed01.stat.exists == true and {{ inventory_hostname }} is match("bo2-inf-rpo*")
+  when: genscript_existed01.stat.exists == true and  inventory_hostname is match("bo2-inf-rpo*")
   
 - name: Generate ndb rpm package by script
   shell: sh {{ scriptsdir }}/{{ scriptName2 }} {{ inventory_hostname }} {{ rpmdir }}
-  when: genscript_existed02.stat.exists == true and {{ inventory_hostname }} is match("bo2-inf-ndb*")
+  when: genscript_existed02.stat.exists == true and  inventory_hostname is match("bo2-inf-ndb*")
   
 - name: List rpm package
   shell: ls {{ scriptsdir }}/{{ inventory_hostname }}_*.rpm
